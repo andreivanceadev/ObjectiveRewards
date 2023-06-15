@@ -5,5 +5,4 @@ object ConfigurationData {
     const val targetSdk= 33
     const val versionCode = 1
     const val versionName = "1.0"
-    const val kotlinCompilerExtVersion = "1.4.7"
 }

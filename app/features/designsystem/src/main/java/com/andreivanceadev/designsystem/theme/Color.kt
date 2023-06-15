@@ -1,4 +1,4 @@
-package com.andreivanceadev.objectiverewards.ui.theme
+package com.andreivanceadev.designsystem.theme
 
 import androidx.compose.ui.graphics.Color
 

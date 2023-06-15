@@ -1,10 +1,13 @@
 object Versions {
+    const val kotlin = "1.8.21"
     const val coreKtx = "1.10.1"
     const val lifecycleKtx = "2.6.1"
     const val activityCompose = "1.7.2"
-    const val composeBom = "2022.10.00"
+    const val composeBom = "2023.05.01"
+    const val composeNav = "2.6.0"
 
     const val hilt = "2.44"
+    const val kotlinCompilerExtVersion = "1.4.7"
 
     object Testing {
         const val jUnit = "4.13.2"
@@ -26,6 +29,7 @@ object Libs {
         const val material = "androidx.compose.material3:material3"
         const val tooling = "androidx.compose.ui:ui-tooling"
         const val manifest = "androidx.compose.ui:ui-test-manifest"
+        const val navigation = "androidx.navigation:navigation-compose:${Versions.composeNav}"
     }
 
     object Hilt {
