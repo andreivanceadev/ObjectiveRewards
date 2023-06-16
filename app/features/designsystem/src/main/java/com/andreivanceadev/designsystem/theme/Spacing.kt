@@ -2,9 +2,10 @@ package com.andreivanceadev.designsystem.theme
 
 import androidx.compose.ui.unit.dp
 
-object Size {
+object Spacing {
     private val base = 8.dp
     val x1 = base
+    val x1_5 = base * 1.5f //12
     val x2 = base * 2 //16
     val x3 = base * 3 //24
     val x4 = base * 4 //32

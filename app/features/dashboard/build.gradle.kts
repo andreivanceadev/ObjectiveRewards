@@ -50,6 +50,7 @@ dependencies {
     implementation(Libs.Compose.graphics)
     implementation(Libs.Compose.tooling)
     implementation(Libs.Compose.material)
+    implementation(Libs.Compose.coil)
 
     //hilt
     implementation(Libs.Hilt.hilt)

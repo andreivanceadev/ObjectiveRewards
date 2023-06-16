@@ -5,6 +5,7 @@ object Versions {
     const val activityCompose = "1.7.2"
     const val composeBom = "2023.05.01"
     const val composeNav = "2.6.0"
+    const val coil = "2.4.0"
 
     const val hilt = "2.44"
     const val kotlinCompilerExtVersion = "1.4.7"
@@ -30,6 +31,7 @@ object Libs {
         const val tooling = "androidx.compose.ui:ui-tooling"
         const val manifest = "androidx.compose.ui:ui-test-manifest"
         const val navigation = "androidx.navigation:navigation-compose:${Versions.composeNav}"
+        const val coil = "io.coil-kt:coil-compose:${Versions.coil}"
     }
 
     object Hilt {

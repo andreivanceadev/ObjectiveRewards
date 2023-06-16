@@ -9,16 +9,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import com.andreivanceadev.dashboard.ui.DashboardScreen
 import com.andreivanceadev.designsystem.composables.PlaceholderScreen
 import com.andreivanceadev.designsystem.theme.ObjectiveRewardsTheme
-import com.andreivanceadev.objectiverewards.ui.BottomBarScreen
+import com.andreivanceadev.objectiverewards.navigation.ScreenNavigation
+import com.andreivanceadev.objectiverewards.ui.BottomBarNav
 import com.andreivanceadev.objectiverewards.ui.BottomNavigationBar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,51 +29,43 @@ class MainActivity : ComponentActivity() {
         setContent {
             ObjectiveRewardsTheme {
                 // A surface container using the 'background' color from the theme
-
                 val navController = rememberNavController()
 
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     bottomBar = {
                         BottomNavigationBar(navController = navController)
-                    }
+                    },
                 ) { innerPadding ->
 
                     NavHost(
                         modifier = Modifier
                             .padding(innerPadding),
                         navController = navController,
-                        startDestination = BottomBarScreen.Dashboard.route
+                        startDestination = BottomBarNav.Dashboard.route
                     ) {
-                        composable(route = BottomBarScreen.Dashboard.route) {
-                            PlaceholderScreen(screenName = "Dashboard")
+                        navigation(
+                            route = BottomBarNav.Dashboard.route,
+                            startDestination = ScreenNavigation.DashboardNavs.Home.route
+                        ) {
+                            composable(route = ScreenNavigation.DashboardNavs.Home.route) {
+                                DashboardScreen(onAddNewObjective = {
+                                    navController.navigate(ScreenNavigation.DashboardNavs.AddNewObjective.route)
+                                })
+                            }
+                            composable(route = ScreenNavigation.DashboardNavs.AddNewObjective.route) {
+                                PlaceholderScreen(screenName = "Add new objective screen")
+                            }
                         }
-                        composable(route = BottomBarScreen.TimeChart.route) {
+                        composable(route = BottomBarNav.TimeChart.route) {
                             PlaceholderScreen(screenName = "Time Chart")
                         }
-                        composable(route = BottomBarScreen.Graph.route) {
+                        composable(route = BottomBarNav.Graph.route) {
                             PlaceholderScreen(screenName = "Graph View")
                         }
                     }
                 }
-
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    ObjectiveRewardsTheme {
-        Greeting("Android")
     }
 }

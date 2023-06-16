@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.andreivanceadev.designsystem.theme.ObjectiveRewardsTheme
 
-@Preview(showSystemUi = true)
+@Preview(showSystemUi = true, showBackground = true, backgroundColor = 0xFFFFFF)
 @Composable
 private fun PreviewPlaceholderScreen() {
     ObjectiveRewardsTheme {

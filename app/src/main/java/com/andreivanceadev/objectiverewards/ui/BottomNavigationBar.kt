@@ -7,7 +7,6 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
@@ -22,14 +21,15 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.andreivanceadev.designsystem.composables.PlaceholderScreen
 import com.andreivanceadev.designsystem.theme.ObjectiveRewardsTheme
+import com.andreivanceadev.objectiverewards.navigation.ScreenNavigation
 
 @Composable
 @Preview(showSystemUi = true)
 private fun PreviewBottomNavigationBar() {
     val screens = listOf(
-        BottomBarScreen.Dashboard,
-        BottomBarScreen.TimeChart,
-        BottomBarScreen.Graph
+        BottomBarNav.Dashboard,
+        BottomBarNav.TimeChart,
+        BottomBarNav.Graph
     )
 
     ObjectiveRewardsTheme {
@@ -37,7 +37,7 @@ private fun PreviewBottomNavigationBar() {
             bottomBar = {
                 BottomBar(
                     screens = screens,
-                    currentRoute = BottomBarScreen.Dashboard.route,
+                    currentRoute = BottomBarNav.Dashboard.route,
                     onNavItemClick = {}
                 )
             }
@@ -46,7 +46,6 @@ private fun PreviewBottomNavigationBar() {
                 PlaceholderScreen(screenName = "Placeholder Screen")
             }
         }
-
     }
 }
 
@@ -54,9 +53,9 @@ private fun PreviewBottomNavigationBar() {
 fun BottomNavigationBar(navController: NavHostController) {
 
     val screens = listOf(
-        BottomBarScreen.Dashboard,
-        BottomBarScreen.TimeChart,
-        BottomBarScreen.Graph
+        BottomBarNav.Dashboard,
+        BottomBarNav.TimeChart,
+        BottomBarNav.Graph
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -82,14 +81,16 @@ fun BottomNavigationBar(navController: NavHostController) {
 
 @Composable
 private fun BottomBar(
-    screens: List<BottomBarScreen>,
+    screens: List<BottomBarNav>,
     onNavItemClick: (route: String) -> Unit,
     currentRoute: String?
 ) {
     NavigationBar {
         screens.map { screen ->
+            val isSelected = currentRoute?.contains(screen.route) ?: false
+
             NavigationBarItem(
-                selected = currentRoute == screen.route,
+                selected = isSelected,
                 onClick = { onNavItemClick(screen.route) },
                 icon = {
                     Icon(screen.icon, contentDescription = screen.title)
@@ -100,26 +101,26 @@ private fun BottomBar(
     }
 }
 
-sealed class BottomBarScreen(
+sealed class BottomBarNav(
     val route: String,
     val title: String,
     val icon: ImageVector
 ) {
 
-    object Dashboard : BottomBarScreen(
-        route = "dashboard",
+    object Dashboard : BottomBarNav(
+        route = ScreenNavigation.Dashboard.navRoute,
         title = "Dashboard",
         icon = Icons.Default.Home
     )
 
-    object TimeChart : BottomBarScreen(
-        route = "time",
+    object TimeChart : BottomBarNav(
+        route = ScreenNavigation.TimeChart.navRoute,
         title = "Time Chart",
         icon = Icons.Default.PlayArrow
     )
 
-    object Graph : BottomBarScreen(
-        route = "graph",
+    object Graph : BottomBarNav(
+        route = ScreenNavigation.Graph.navRoute,
         title = "Graph View",
         icon = Icons.Default.ShoppingCart
     )
