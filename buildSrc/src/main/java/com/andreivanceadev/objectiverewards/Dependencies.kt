@@ -10,6 +10,9 @@ object Versions {
     const val hilt = "2.44"
     const val kotlinCompilerExtVersion = "1.4.7"
 
+    const val room = "2.5.1"
+
+
     object Testing {
         const val jUnit = "4.13.2"
         const val jUnitX = "1.1.5"
@@ -37,6 +40,12 @@ object Libs {
     object Hilt {
         const val hilt = "com.google.dagger:hilt-android:${Versions.hilt}"
         const val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
+    }
+
+    object Room {
+        const val runtime = "androidx.room:room-runtime:${Versions.room}"
+        const val compiler = "androidx.room:room-compiler:${Versions.room}"
+        const val ktx = "androidx.room:room-ktx:${Versions.room}"
     }
 
     object Testing {

@@ -46,6 +46,8 @@ dependencies {
     implementation(Libs.Compose.graphics)
     implementation(Libs.Compose.tooling)
     implementation(Libs.Compose.material)
+    implementation(Libs.Compose.coil)
+
 
     testImplementation(Libs.Testing.jUnit)
     androidTestImplementation(Libs.Testing.jUnitX)

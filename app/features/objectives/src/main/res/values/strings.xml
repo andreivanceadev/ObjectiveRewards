@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="objective_title">Objective Title</string>
+    <string name="objective_desc">Objective Description</string>
+    <string name="add_image">Add Image</string>
+    <string name="save">Save</string>
+</resources>

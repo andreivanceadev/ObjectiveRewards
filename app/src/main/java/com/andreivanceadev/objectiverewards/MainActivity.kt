@@ -20,6 +20,7 @@ import com.andreivanceadev.designsystem.theme.ObjectiveRewardsTheme
 import com.andreivanceadev.objectiverewards.navigation.ScreenNavigation
 import com.andreivanceadev.objectiverewards.ui.BottomBarNav
 import com.andreivanceadev.objectiverewards.ui.BottomNavigationBar
+import com.andreivanceadev.objectives.ui.AddObjectiveScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -54,7 +55,9 @@ class MainActivity : ComponentActivity() {
                                 })
                             }
                             composable(route = ScreenNavigation.DashboardNavs.AddNewObjective.route) {
-                                PlaceholderScreen(screenName = "Add new objective screen")
+                                AddObjectiveScreen(
+                                    onFinish = { navController.popBackStack() }
+                                )
                             }
                         }
                         composable(route = BottomBarNav.TimeChart.route) {
