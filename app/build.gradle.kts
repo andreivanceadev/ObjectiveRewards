@@ -23,9 +23,19 @@ android {
     }
 
     buildTypes {
-        release {
+        debug {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+        release {
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -63,6 +73,8 @@ dependencies {
     implementation(Libs.Compose.tooling)
     implementation(Libs.Compose.material)
     implementation(Libs.Compose.navigation)
+
+    implementation(Libs.timber)
 
     //hilt
     implementation(Libs.Hilt.hilt)

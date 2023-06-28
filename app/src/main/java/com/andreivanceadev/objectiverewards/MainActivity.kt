@@ -56,7 +56,7 @@ class MainActivity : ComponentActivity() {
                             }
                             composable(route = ScreenNavigation.DashboardNavs.AddNewObjective.route) {
                                 AddObjectiveScreen(
-                                    onFinish = { navController.popBackStack() }
+                                    onNavBack = { navController.popBackStack() }
                                 )
                             }
                         }

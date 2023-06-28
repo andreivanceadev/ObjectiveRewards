@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = ConfigurationData.applicationId + ".data"
+    namespace = ConfigurationData.applicationId + ".core"
     compileSdk = ConfigurationData.compileSdk
 
     defaultConfig {
@@ -48,13 +48,11 @@ dependencies {
     implementation(Libs.Hilt.hilt)
     kapt(Libs.Hilt.hiltCompiler)
 
-    //room
-    implementation(Libs.Room.runtime)
-    implementation(Libs.Room.ktx)
-    kapt(Libs.Room.compiler)
-
     testImplementation(Libs.Testing.jUnit)
     androidTestImplementation(Libs.Testing.jUnitX)
+    testImplementation(Libs.Testing.turbine)
+
+    compileOnly(Libs.Testing.turbine)
 }
 
 kapt {

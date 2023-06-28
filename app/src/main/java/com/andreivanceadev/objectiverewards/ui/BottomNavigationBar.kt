@@ -86,7 +86,9 @@ private fun BottomBar(
     currentRoute: String?
 ) {
     NavigationBar {
-        screens.map { screen ->
+
+        screens.forEach { screen ->
+
             val isSelected = currentRoute?.contains(screen.route) ?: false
 
             NavigationBarItem(

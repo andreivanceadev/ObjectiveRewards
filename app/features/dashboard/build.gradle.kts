@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -17,6 +18,13 @@ android {
     }
 
     buildTypes {
+        debug {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
@@ -40,7 +48,10 @@ android {
 
 dependencies {
 
+
     implementation(project(":app:features:designsystem"))
+    implementation(project(":app:data"))
+    implementation(project(":app:core"))
 
     implementation(Libs.coreKtx)
     implementation(Libs.lifecycleKtx)
@@ -51,9 +62,13 @@ dependencies {
     implementation(Libs.Compose.tooling)
     implementation(Libs.Compose.material)
     implementation(Libs.Compose.coil)
+    implementation(Libs.Compose.viewModelLifecycle)
+
+    implementation(Libs.timber)
 
     //hilt
     implementation(Libs.Hilt.hilt)
+    implementation(Libs.Hilt.hiltNavigation)
     kapt(Libs.Hilt.hiltCompiler)
 
     testImplementation(Libs.Testing.jUnit)

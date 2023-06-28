@@ -1,6 +1,5 @@
 package com.andreivanceadev.dashboard.ui
 
-import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,6 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import com.andreivanceadev.designsystem.composables.ImageCard
 import com.andreivanceadev.designsystem.theme.ObjectiveRewardsTheme
 import com.andreivanceadev.designsystem.theme.Spacing
@@ -44,7 +44,7 @@ fun ObjectiveRewardListItem(
     onClick: () -> Unit = {}
 ) {
     val imageUri = remember(rewardImageUrl) {
-        rewardImageUrl?.let { Uri.parse(it) }
+        rewardImageUrl?.toUri()
     }
 
     ImageCard(

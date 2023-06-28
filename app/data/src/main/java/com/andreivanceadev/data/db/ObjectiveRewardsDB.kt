@@ -9,7 +9,7 @@ import com.andreivanceadev.data.entity.ObjectiveDto
 import com.andreivanceadev.data.entity.RewardDto
 
 @Database(entities = [ObjectiveDto::class, RewardDto::class], version = 1)
-abstract class ObjectiveRewardsDB : RoomDatabase() {
+internal abstract class ObjectiveRewardsDB : RoomDatabase() {
 
     abstract fun objectiveRewardsDao(): ObjectiveRewardsDao
 

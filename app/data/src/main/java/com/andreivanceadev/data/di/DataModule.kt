@@ -16,10 +16,10 @@ object DataModule {
 
     @Singleton
     @Provides
-    fun provideDatabase(@ApplicationContext context: Context): ObjectiveRewardsDB =
+    internal fun provideDatabase(@ApplicationContext context: Context): ObjectiveRewardsDB =
         ObjectiveRewardsDB.getInstance(context)
 
     @Provides
-    fun provideObjectiveRewardsDao(db: ObjectiveRewardsDB): ObjectiveRewardsDao = db.objectiveRewardsDao()
+    internal fun provideObjectiveRewardsDao(db: ObjectiveRewardsDB): ObjectiveRewardsDao = db.objectiveRewardsDao()
 
 }

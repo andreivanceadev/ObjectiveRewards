@@ -10,10 +10,16 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.andreivanceadev.dashboard.viewmodel.DashboardViewModel
+import com.andreivanceadev.dashboard.viewmodel.DashboardViewState
 import com.andreivanceadev.designsystem.theme.ObjectiveRewardsTheme
 import com.andreivanceadev.designsystem.theme.Spacing
 
@@ -21,38 +27,63 @@ import com.andreivanceadev.designsystem.theme.Spacing
 @Composable
 private fun PreviewDashboardScreen() {
     ObjectiveRewardsTheme {
-        DashboardScreen() {}
+        DashboardScreen(
+            state = DashboardViewState.NoContent,
+            onAddNewObjective = {}
+        )
     }
 }
 
+
 @Composable
 fun DashboardScreen(
+    viewModel: DashboardViewModel = hiltViewModel(),
     onAddNewObjective: () -> Unit
 ) {
 
-    val mockObjectiveRewards = listOf(
-        "Objective 1" to "Objective Description 1",
-        "Objective 2" to "Objective Description 2",
-        "Objective 3" to "Objective Description 3",
-        "Objective 4" to "Objective Description 4",
-        "Objective 5" to "Objective Description 5",
-    )
+    val state = viewModel.container.stateFlow.collectAsState().value
 
+    LaunchedEffect(key1 = Unit) {
+        viewModel.onStart()
+    }
+
+    DashboardScreen(
+        state = state,
+        onAddNewObjective = onAddNewObjective
+    )
+}
+
+@Composable
+internal fun DashboardScreen(
+    state: DashboardViewState,
+    onAddNewObjective: () -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(Spacing.x1)
     ) {
 
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(Spacing.x1)
-        ) {
-            items(mockObjectiveRewards) { pair ->
-                ObjectiveRewardListItem(
-                    objectiveTitle = pair.first,
-                    objectiveDescription = pair.second,
-                    rewardImageUrl = "https://img3.hulu.com/user/v3/artwork/40c7961d-3d92-4b2c-bbe7-2a48ca2926f5?base_image_bucket_name=image_manager&base_image=9bf724e4-93ef-40d7-9720-5d8a08521e57&size=600x338&format=jpeg"
+        when (state) {
+            is DashboardViewState.Content -> {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(Spacing.x1)
+                ) {
+                    items(state.content) { objective ->
+                        ObjectiveRewardListItem(
+                            objectiveTitle = objective.title,
+                            objectiveDescription = objective.desc,
+                            rewardImageUrl = objective.reward.imagePath
+                        )
+                    }
+                }
+            }
+
+            DashboardViewState.NoContent -> {
+                Text(
+                    modifier = Modifier.align(Alignment.Center),
+                    text = "No objectives so far..."
                 )
             }
         }
@@ -69,5 +100,4 @@ fun DashboardScreen(
             )
         }
     }
-
 }
