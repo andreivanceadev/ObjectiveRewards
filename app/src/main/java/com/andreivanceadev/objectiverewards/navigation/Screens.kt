@@ -9,8 +9,14 @@ sealed class ScreenNavigation(
     object Graph : ScreenNavigation(navRoute = "graph")
 
     sealed class DashboardNavs(val route: String) {
-        object Home : DashboardNavs(route = "${Dashboard.navRoute}/Home")
-        object AddNewObjective : DashboardNavs(route = "${Dashboard.navRoute}/AddNewObjective")
-    }
 
+        companion object {
+            const val PARAM_OBJECTIVE_ID = "objectiveId"
+        }
+
+        object Home : DashboardNavs(route = "${Dashboard.navRoute}/Home")
+        object Objective : DashboardNavs(
+            route = "${Dashboard.navRoute}/Objective/{$PARAM_OBJECTIVE_ID}"
+        )
+    }
 }

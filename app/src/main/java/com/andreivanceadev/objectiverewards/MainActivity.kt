@@ -10,17 +10,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.andreivanceadev.dashboard.ui.DashboardScreen
 import com.andreivanceadev.designsystem.composables.PlaceholderScreen
 import com.andreivanceadev.designsystem.theme.ObjectiveRewardsTheme
 import com.andreivanceadev.objectiverewards.navigation.ScreenNavigation
 import com.andreivanceadev.objectiverewards.ui.BottomBarNav
 import com.andreivanceadev.objectiverewards.ui.BottomNavigationBar
-import com.andreivanceadev.objectives.ui.AddObjectiveScreen
+import com.andreivanceadev.objectives.ui.ObjectiveScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -50,12 +52,24 @@ class MainActivity : ComponentActivity() {
                             startDestination = ScreenNavigation.DashboardNavs.Home.route
                         ) {
                             composable(route = ScreenNavigation.DashboardNavs.Home.route) {
-                                DashboardScreen(onAddNewObjective = {
-                                    navController.navigate(ScreenNavigation.DashboardNavs.AddNewObjective.route)
-                                })
+                                DashboardScreen(
+                                    onAddNewObjective = {
+                                        navController.navigate(ScreenNavigation.DashboardNavs.Objective.route)
+                                    },
+                                    onViewObjectiveDetails = {
+                                        navController.navigate("${ScreenNavigation.DashboardNavs.Objective.route}/$it")
+                                    }
+                                )
                             }
-                            composable(route = ScreenNavigation.DashboardNavs.AddNewObjective.route) {
-                                AddObjectiveScreen(
+                            composable(
+                                route = ScreenNavigation.DashboardNavs.Objective.route,
+                                arguments = listOf(
+                                    navArgument(ScreenNavigation.DashboardNavs.PARAM_OBJECTIVE_ID) {
+                                        type = NavType.LongType
+                                    })
+                            ) { backStackEntry ->
+                                ObjectiveScreen(
+                                    objectiveId = backStackEntry.arguments?.getLong(ScreenNavigation.DashboardNavs.PARAM_OBJECTIVE_ID),
                                     onNavBack = { navController.popBackStack() }
                                 )
                             }

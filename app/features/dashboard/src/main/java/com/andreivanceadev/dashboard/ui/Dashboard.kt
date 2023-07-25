@@ -29,7 +29,8 @@ private fun PreviewDashboardScreen() {
     ObjectiveRewardsTheme {
         DashboardScreen(
             state = DashboardViewState.NoContent,
-            onAddNewObjective = {}
+            onAddNewObjective = {},
+            onViewObjectiveDetails = {}
         )
     }
 }
@@ -38,7 +39,8 @@ private fun PreviewDashboardScreen() {
 @Composable
 fun DashboardScreen(
     viewModel: DashboardViewModel = hiltViewModel(),
-    onAddNewObjective: () -> Unit
+    onAddNewObjective: () -> Unit,
+    onViewObjectiveDetails: (id: Long) -> Unit
 ) {
 
     val state = viewModel.container.stateFlow.collectAsState().value
@@ -49,14 +51,16 @@ fun DashboardScreen(
 
     DashboardScreen(
         state = state,
-        onAddNewObjective = onAddNewObjective
+        onAddNewObjective = onAddNewObjective,
+        onViewObjectiveDetails = onViewObjectiveDetails
     )
 }
 
 @Composable
 internal fun DashboardScreen(
     state: DashboardViewState,
-    onAddNewObjective: () -> Unit
+    onAddNewObjective: () -> Unit,
+    onViewObjectiveDetails: (id: Long) -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -71,10 +75,11 @@ internal fun DashboardScreen(
                     verticalArrangement = Arrangement.spacedBy(Spacing.x1)
                 ) {
                     items(state.content) { objective ->
-                        ObjectiveRewardListItem(
+                        GoalListItem(
                             objectiveTitle = objective.title,
                             objectiveDescription = objective.desc,
-                            rewardImageUrl = objective.reward.imagePath
+                            rewardImageUrl = objective.reward.imagePath,
+                            onClick = { onViewObjectiveDetails(objective.id) }
                         )
                     }
                 }

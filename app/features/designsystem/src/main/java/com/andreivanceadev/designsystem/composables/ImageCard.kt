@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -54,7 +55,6 @@ private fun PreviewImageCard() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ImageCard(
     modifier: Modifier = Modifier,
@@ -63,14 +63,44 @@ fun ImageCard(
     imageUri: Uri?,
     @DrawableRes fallbackImage: Int = R.drawable.drunken_clam,
     contentOverImage: @Composable BoxScope.() -> Unit = {},
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    content: @Composable ColumnScope.() -> Unit = {}
+) {
+    ImageCard(
+        modifier = modifier,
+        imageUri = imageUri,
+        fallbackImage = fallbackImage,
+        contentOverImage = contentOverImage,
+        onClick = onClick,
+    ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.headlineSmall
+        )
+        Spacer(modifier = Modifier.height(Spacing.x1))
+        Text(
+            text = description,
+            style = MaterialTheme.typography.bodySmall
+        )
+        content()
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ImageCard(
+    modifier: Modifier = Modifier,
+    imageUri: Uri?,
+    @DrawableRes fallbackImage: Int = R.drawable.drunken_clam,
+    contentOverImage: @Composable BoxScope.() -> Unit = {},
+    onClick: () -> Unit,
+    content: @Composable ColumnScope.() -> Unit = {}
 ) {
     Card(
         modifier = modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = ImageCardDefaults.cardElevation),
         onClick = onClick
     ) {
-
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -111,16 +141,7 @@ fun ImageCard(
         }
 
         Column(modifier = Modifier.padding(Spacing.x2)) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.headlineSmall
-            )
-            Spacer(modifier = Modifier.height(Spacing.x1))
-            Text(
-                text = description,
-                style = MaterialTheme.typography.bodySmall
-            )
-
+            content()
         }
 
     }

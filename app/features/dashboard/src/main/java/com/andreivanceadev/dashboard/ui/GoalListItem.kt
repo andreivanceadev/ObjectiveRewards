@@ -28,7 +28,7 @@ private fun PreviewObjectiveRewardListItem() {
                 .height(500.dp)
                 .padding(Spacing.x1)
         ) {
-            ObjectiveRewardListItem(
+            GoalListItem(
                 objectiveTitle = "Test Objective",
                 objectiveDescription = "Test Objective description. This is the description of what you are trying to achieve"
             )
@@ -37,7 +37,7 @@ private fun PreviewObjectiveRewardListItem() {
 }
 
 @Composable
-fun ObjectiveRewardListItem(
+fun GoalListItem(
     objectiveTitle: String,
     objectiveDescription: String,
     rewardImageUrl: String? = null,

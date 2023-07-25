@@ -15,6 +15,7 @@ sealed class DashboardViewState {
     ) : DashboardViewState(), Parcelable {
         @Parcelize
         data class Objective(
+            val id: Long,
             val title: String,
             val desc: String,
             val reward: Reward
@@ -29,6 +30,7 @@ sealed class DashboardViewState {
 }
 
 fun ObjectiveDM.toUI() = DashboardViewState.Content.Objective(
+    id = this.id,
     title = this.title,
     desc = this.desc,
     reward = this.reward.toUI()

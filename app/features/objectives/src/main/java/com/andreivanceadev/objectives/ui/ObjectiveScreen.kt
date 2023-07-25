@@ -44,7 +44,7 @@ import kotlinx.coroutines.launch
 @Composable
 private fun PreviewAddObjectiveScreen() {
     ObjectiveRewardsTheme {
-        AddObjectiveScreen(
+        ObjectiveScreen(
             objectiveTitle = "Preview objective",
             objectiveDescription = "Preview description",
             imageUrl = null,
@@ -57,8 +57,9 @@ private fun PreviewAddObjectiveScreen() {
 }
 
 @Composable
-fun AddObjectiveScreen(
+fun ObjectiveScreen(
     viewModel: AddObjectiveViewModel = hiltViewModel(),
+    objectiveId: Long? = null,
     onNavBack: () -> Unit
 ) {
     val state = viewModel.container.stateFlow.collectAsState().value
@@ -71,7 +72,7 @@ fun AddObjectiveScreen(
         }
     }
 
-    AddObjectiveScreen(
+    ObjectiveScreen(
         onSave = viewModel::onSave,
         onImageChange = viewModel::onImageChange,
         onTitleChange = viewModel::onTitleChange,
@@ -84,7 +85,7 @@ fun AddObjectiveScreen(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-internal fun AddObjectiveScreen(
+internal fun ObjectiveScreen(
     onTitleChange: (String) -> Unit,
     onDescriptionChange: (String) -> Unit,
     onImageChange: (String) -> Unit,

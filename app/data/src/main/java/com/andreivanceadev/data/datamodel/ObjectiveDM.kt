@@ -4,6 +4,7 @@ import com.andreivanceadev.data.entity.ObjectiveAndRewardDto
 import com.andreivanceadev.data.entity.ObjectiveDto
 
 data class ObjectiveDM(
+    val id: Long = -1,
     val title: String,
     val desc: String,
     val reward: RewardDM
@@ -15,6 +16,7 @@ internal fun ObjectiveDM.toDto() = ObjectiveDto(
 )
 
 internal fun ObjectiveAndRewardDto.toDM() = ObjectiveDM(
+    id = this.objective.objectiveId,
     title = this.objective.title,
     desc = this.objective.description,
     reward = this.reward.toDM()
