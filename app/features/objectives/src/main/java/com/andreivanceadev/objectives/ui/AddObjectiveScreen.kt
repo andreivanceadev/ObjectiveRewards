@@ -35,7 +35,7 @@ import com.andreivanceadev.core.state.effectFlow
 import com.andreivanceadev.designsystem.composables.ImageCard
 import com.andreivanceadev.designsystem.theme.ObjectiveRewardsTheme
 import com.andreivanceadev.designsystem.theme.Spacing
-import com.andreivanceadev.objectiverewards.dashboard.R
+import com.andreivanceadev.objectiverewards.objectives.R
 import com.andreivanceadev.objectives.viewmodel.AddObjectiveSideEffect
 import com.andreivanceadev.objectives.viewmodel.AddObjectiveViewModel
 import kotlinx.coroutines.launch
