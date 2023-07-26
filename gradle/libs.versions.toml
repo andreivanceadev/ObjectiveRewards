@@ -1,0 +1,79 @@
+[versions]
+androidGradlePlugin = "8.0.2"
+kotlin = "1.8.21"
+coreKtx = "1.10.1"
+lifecycle = "2.6.1"
+activityCompose = "1.7.2"
+androidDesugarJdkLibs = "2.0.3"
+composeBom = "2023.06.01"
+composeNav = "2.6.0"
+coil = "2.4.0"
+
+hilt = "2.47"
+hiltNavigation = "1.0.0"
+kotlinCompilerExt = "1.5.0"
+
+room = "2.5.2"
+timber = "5.0.1"
+
+#Testing
+jUnit = "4.13.2"
+jUnitX = "1.1.5"
+espressoCore = "3.5.1"
+turbine = "1.0.0"
+kotlin1821 = "1.8.21"
+
+#Build-logic
+ksp = "1.9.0-1.0.11"
+
+[libraries]
+
+core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+lifecycle-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
+timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
+
+android-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
+
+#Compose
+compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+compose-ui = { group = "androidx.compose.ui", name = "ui" }
+compose-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+compose-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+compose-material = { group = "androidx.compose.material3", name = "material3" }
+compose-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+compose-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "composeNav" }
+compose-coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+compose-viewModel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+
+
+#Hilt
+hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigation" }
+
+#Room
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+
+#Testing
+test-jUnit = { group = "junit", name = "junit", version.ref = "jUnit" }
+test-jUnitX = { group = "androidx.test.ext", name = "junit", version.ref = "jUnitX" }
+test-espressoCore = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+test-compose = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+test-turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
+
+# Dependencies of the included build-logic
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin1821" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

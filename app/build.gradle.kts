@@ -1,20 +1,20 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    kotlin("kapt")
-    id("com.google.dagger.hilt.android")
+    id("objectiverewards.android.application")
+    id("objectiverewards.android.application.compose")
+    id("objectiverewards.android.hilt")
 }
 
+val appId = "com.andreivanceadev.objectiverewards"
+val versionCodeNumber = 1
+val versionCodeString = "0.0.1" // X.Y.Z; X = Major, Y = minor, Z = Patch level
+
 android {
-    namespace = ConfigurationData.applicationId
-    compileSdk = ConfigurationData.compileSdk
+    namespace = appId
 
     defaultConfig {
-        applicationId = ConfigurationData.applicationId
-        minSdk = ConfigurationData.minSdk
-        targetSdk = ConfigurationData.targetSdk
-        versionCode = ConfigurationData.versionCode
-        versionName = ConfigurationData.versionName
+        applicationId = appId
+        versionCode = versionCodeNumber
+        versionName = versionCodeString
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -24,11 +24,7 @@ android {
 
     buildTypes {
         debug {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            applicationIdSuffix = ".debug"
         }
         release {
             isMinifyEnabled = true
@@ -38,19 +34,7 @@ android {
             )
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Versions.kotlinCompilerExtVersion
-    }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -64,30 +48,18 @@ dependencies {
     implementation(project("features:dashboard"))
     implementation(project("features:objectives"))
 
-    implementation(Libs.coreKtx)
-    implementation(Libs.lifecycleKtx)
-    implementation(Libs.Compose.activity)
-    implementation(platform(Libs.Compose.bom))
-    implementation(Libs.Compose.ui)
-    implementation(Libs.Compose.graphics)
-    implementation(Libs.Compose.tooling)
-    implementation(Libs.Compose.material)
-    implementation(Libs.Compose.navigation)
+    implementation(libs.compose.navigation)
 
-    implementation(Libs.timber)
+    implementation(libs.timber)
 
-    //hilt
-    implementation(Libs.Hilt.hilt)
-    kapt(Libs.Hilt.hiltCompiler)
+    testImplementation(libs.test.jUnit)
+    androidTestImplementation(libs.test.jUnitX)
+    androidTestImplementation(libs.test.espressoCore)
+    androidTestImplementation(platform(libs.compose.bom))
+    androidTestImplementation(libs.test.compose)
 
-    testImplementation(Libs.Testing.jUnit)
-    androidTestImplementation(Libs.Testing.jUnitX)
-    androidTestImplementation(Libs.Testing.espressoCore)
-    androidTestImplementation(platform(Libs.Compose.bom))
-    androidTestImplementation(Libs.Testing.composeJunit)
-
-    debugImplementation(Libs.Compose.tooling)
-    debugImplementation(Libs.Compose.manifest)
+    debugImplementation(libs.compose.tooling)
+    debugImplementation(libs.compose.manifest)
 }
 
 kapt {
