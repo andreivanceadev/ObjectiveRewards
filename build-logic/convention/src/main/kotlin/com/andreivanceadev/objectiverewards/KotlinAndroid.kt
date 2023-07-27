@@ -37,6 +37,7 @@ internal fun Project.configureKotlinAndroid(
 
         "implementation"(libs.findLibrary("core.ktx").get())
         "implementation"(libs.findLibrary("lifecycle.ktx").get())
+        "implementation"(libs.findLibrary("collections.immutable").get())
 
         //logging
         add("implementation", libs.findLibrary("timber").get())

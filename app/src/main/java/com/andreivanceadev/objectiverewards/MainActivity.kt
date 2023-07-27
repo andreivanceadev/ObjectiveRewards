@@ -43,20 +43,22 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier
                             .padding(innerPadding),
                         navController = navController,
-                        startDestination = BottomBarNav.Dashboard.route
+                        startDestination = BottomBarNav.Dashboard.route,
                     ) {
                         navigation(
                             route = BottomBarNav.Dashboard.route,
-                            startDestination = ScreenNavigation.DashboardNavs.Home.route
+                            startDestination = ScreenNavigation.DashboardNavs.Home.route,
                         ) {
                             composable(route = ScreenNavigation.DashboardNavs.Home.route) {
                                 DashboardScreen(onAddNewObjective = {
-                                    navController.navigate(ScreenNavigation.DashboardNavs.AddNewObjective.route)
-                                })
+                                    navController.navigate(
+                                        ScreenNavigation.DashboardNavs.AddNewObjective.route,
+                                    )
+                                },)
                             }
                             composable(route = ScreenNavigation.DashboardNavs.AddNewObjective.route) {
                                 AddObjectiveScreen(
-                                    onNavBack = { navController.popBackStack() }
+                                    onNavBack = { navController.popBackStack() },
                                 )
                             }
                         }

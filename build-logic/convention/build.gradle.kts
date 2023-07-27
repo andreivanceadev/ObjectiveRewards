@@ -21,6 +21,7 @@ tasks.withType<KotlinCompile>().configureEach {
 dependencies {
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
+    compileOnly(libs.ktLint.gradlePlugin)
     compileOnly(libs.ksp.gradlePlugin)
 }
 
@@ -53,6 +54,10 @@ gradlePlugin {
         register("room") {
             id = "objectiverewards.android.room"
             implementationClass = "com.andreivanceadev.AndroidRoomConventionPlugin"
+        }
+        register("ktlint") {
+            id = "objectiverewards.android.ktlint"
+            implementationClass = "com.andreivanceadev.AndroidKtLintConventionPlugin"
         }
     }
 }

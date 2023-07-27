@@ -14,7 +14,7 @@ object ObjectivesModule {
 
     @Provides
     fun provideObjectivesViewModel(objectivesRepository: ObjectivesRepository) = AddObjectiveViewModel(
-        objectivesRepository, AddObjectiveViewState()
+        objectivesRepository,
+        AddObjectiveViewState(),
     )
-
 }

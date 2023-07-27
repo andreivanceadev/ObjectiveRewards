@@ -19,11 +19,11 @@ private fun PreviewPlaceholderScreen() {
 }
 
 @Composable
-fun PlaceholderScreen(screenName: String) {
+fun PlaceholderScreen(screenName: String, modifier: Modifier = Modifier) {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(text = screenName)
     }

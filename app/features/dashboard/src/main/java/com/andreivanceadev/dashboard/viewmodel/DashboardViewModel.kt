@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
     private val objectivesRepository: ObjectivesRepository,
-    initialState: DashboardViewState = DashboardViewState.NoContent
+    initialState: DashboardViewState = DashboardViewState.NoContent,
 ) : ViewModel(), StateContainerHost<DashboardViewState, DashboardSideEffect> {
 
     override val container = StateContainer

@@ -2,5 +2,5 @@ package com.andreivanceadev.objectives.viewmodel
 
 sealed class AddObjectiveSideEffect {
 
-    object NavBack : AddObjectiveSideEffect()
+    data object NavBack : AddObjectiveSideEffect()
 }

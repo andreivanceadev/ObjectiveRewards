@@ -7,23 +7,23 @@ import kotlinx.parcelize.Parcelize
 
 sealed class DashboardViewState {
 
-    object NoContent : DashboardViewState()
+    data object NoContent : DashboardViewState()
 
     @Parcelize
     data class Content(
-        val content: List<Objective> = emptyList()
+        val content: List<Objective> = emptyList(),
     ) : DashboardViewState(), Parcelable {
         @Parcelize
         data class Objective(
             val title: String,
             val desc: String,
-            val reward: Reward
+            val reward: Reward,
         ) : Parcelable
 
         @Parcelize
         data class Reward(
             val title: String,
-            val imagePath: String
+            val imagePath: String,
         ) : Parcelable
     }
 }
@@ -31,11 +31,10 @@ sealed class DashboardViewState {
 fun ObjectiveDM.toUI() = DashboardViewState.Content.Objective(
     title = this.title,
     desc = this.desc,
-    reward = this.reward.toUI()
+    reward = this.reward.toUI(),
 )
 
 private fun RewardDM.toUI() = DashboardViewState.Content.Reward(
     title = this.title,
-    imagePath = this.imagePath
+    imagePath = this.imagePath,
 )
-

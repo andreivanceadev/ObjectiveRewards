@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AddObjectiveViewModel @Inject constructor(
     private val objectivesRepository: ObjectivesRepository,
-    initialState: AddObjectiveViewState = AddObjectiveViewState()
+    initialState: AddObjectiveViewState = AddObjectiveViewState(),
 ) : ViewModel(), StateContainerHost<AddObjectiveViewState, AddObjectiveSideEffect> {
 
     override val container = StateContainer
@@ -34,9 +34,9 @@ class AddObjectiveViewModel @Inject constructor(
                 desc = state.description,
                 reward = RewardDM(
                     title = "Todo",
-                    imagePath = state.imagePath
-                )
-            )
+                    imagePath = state.imagePath,
+                ),
+            ),
         )
         postEffect(AddObjectiveSideEffect.NavBack)
     }
