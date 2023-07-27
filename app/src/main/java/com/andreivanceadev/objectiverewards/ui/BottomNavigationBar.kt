@@ -22,14 +22,16 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.andreivanceadev.designsystem.composables.PlaceholderScreen
 import com.andreivanceadev.designsystem.theme.ObjectiveRewardsTheme
 import com.andreivanceadev.objectiverewards.navigation.ScreenNavigation
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 @Preview(showSystemUi = true)
 private fun PreviewBottomNavigationBar() {
-    val screens = listOf(
+    val screens = persistentListOf(
         BottomBarNav.Dashboard,
         BottomBarNav.TimeChart,
-        BottomBarNav.Graph
+        BottomBarNav.Graph,
     )
 
     ObjectiveRewardsTheme {
@@ -38,9 +40,9 @@ private fun PreviewBottomNavigationBar() {
                 BottomBar(
                     screens = screens,
                     currentRoute = BottomBarNav.Dashboard.route,
-                    onNavItemClick = {}
+                    onNavItemClick = {},
                 )
-            }
+            },
         ) { innerPadding ->
             Column(modifier = Modifier.padding(innerPadding)) {
                 PlaceholderScreen(screenName = "Placeholder Screen")
@@ -51,11 +53,10 @@ private fun PreviewBottomNavigationBar() {
 
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
-
-    val screens = listOf(
+    val screens = persistentListOf(
         BottomBarNav.Dashboard,
         BottomBarNav.TimeChart,
-        BottomBarNav.Graph
+        BottomBarNav.Graph,
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -75,18 +76,17 @@ fun BottomNavigationBar(navController: NavHostController) {
                 restoreState = true
             }
         },
-        currentRoute = currentDestination?.route
+        currentRoute = currentDestination?.route,
     )
 }
 
 @Composable
 private fun BottomBar(
-    screens: List<BottomBarNav>,
+    screens: ImmutableList<BottomBarNav>,
     onNavItemClick: (route: String) -> Unit,
-    currentRoute: String?
+    currentRoute: String?,
 ) {
     NavigationBar {
-
         screens.forEach { screen ->
 
             val isSelected = currentRoute?.contains(screen.route) ?: false
@@ -97,7 +97,7 @@ private fun BottomBar(
                 icon = {
                     Icon(screen.icon, contentDescription = screen.title)
                 },
-                label = { Text(text = screen.title) }
+                label = { Text(text = screen.title) },
             )
         }
     }
@@ -106,25 +106,24 @@ private fun BottomBar(
 sealed class BottomBarNav(
     val route: String,
     val title: String,
-    val icon: ImageVector
+    val icon: ImageVector,
 ) {
 
-    object Dashboard : BottomBarNav(
+    data object Dashboard : BottomBarNav(
         route = ScreenNavigation.Dashboard.navRoute,
         title = "Dashboard",
-        icon = Icons.Default.Home
+        icon = Icons.Default.Home,
     )
 
-    object TimeChart : BottomBarNav(
+    data object TimeChart : BottomBarNav(
         route = ScreenNavigation.TimeChart.navRoute,
         title = "Time Chart",
-        icon = Icons.Default.PlayArrow
+        icon = Icons.Default.PlayArrow,
     )
 
-    object Graph : BottomBarNav(
+    data object Graph : BottomBarNav(
         route = ScreenNavigation.Graph.navRoute,
         title = "Graph View",
-        icon = Icons.Default.ShoppingCart
+        icon = Icons.Default.ShoppingCart,
     )
-
 }

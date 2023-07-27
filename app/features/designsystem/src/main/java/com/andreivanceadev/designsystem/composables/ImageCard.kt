@@ -48,7 +48,7 @@ private fun PreviewImageCard() {
                 title = "Preview Card Title",
                 description = "Preview Card Description",
                 imageUri = null,
-                onClick = {}
+                onClick = {},
             )
         }
     }
@@ -57,20 +57,19 @@ private fun PreviewImageCard() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ImageCard(
-    modifier: Modifier = Modifier,
     title: String,
     description: String,
     imageUri: Uri?,
+    modifier: Modifier = Modifier,
     @DrawableRes fallbackImage: Int = R.drawable.drunken_clam,
     contentOverImage: @Composable BoxScope.() -> Unit = {},
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Card(
         modifier = modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = ImageCardDefaults.cardElevation),
-        onClick = onClick
+        onClick = onClick,
     ) {
-
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -83,10 +82,11 @@ fun ImageCard(
                             Color.White,
                             Color.Green,
                             Color.Blue,
-                            Color.Black
-                        )
-                    ), alpha = 0.5f
-                )
+                            Color.Black,
+                        ),
+                    ),
+                    alpha = 0.5f,
+                ),
         ) {
             imageUri?.let {
                 val model = ImageRequest.Builder(LocalContext.current)
@@ -103,7 +103,7 @@ fun ImageCard(
                         .height(ImageCardDefaults.imageHeight),
                     painter = painter,
                     contentScale = ContentScale.FillWidth,
-                    contentDescription = null
+                    contentDescription = null,
                 )
             }
 
@@ -113,15 +113,13 @@ fun ImageCard(
         Column(modifier = Modifier.padding(Spacing.x2)) {
             Text(
                 text = title,
-                style = MaterialTheme.typography.headlineSmall
+                style = MaterialTheme.typography.headlineSmall,
             )
             Spacer(modifier = Modifier.height(Spacing.x1))
             Text(
                 text = description,
-                style = MaterialTheme.typography.bodySmall
+                style = MaterialTheme.typography.bodySmall,
             )
-
         }
-
     }
 }

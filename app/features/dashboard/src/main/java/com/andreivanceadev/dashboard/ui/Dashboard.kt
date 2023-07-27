@@ -29,18 +29,16 @@ private fun PreviewDashboardScreen() {
     ObjectiveRewardsTheme {
         DashboardScreen(
             state = DashboardViewState.NoContent,
-            onAddNewObjective = {}
+            onAddNewObjective = {},
         )
     }
 }
 
-
 @Composable
 fun DashboardScreen(
     viewModel: DashboardViewModel = hiltViewModel(),
-    onAddNewObjective: () -> Unit
+    onAddNewObjective: () -> Unit,
 ) {
-
     val state = viewModel.container.stateFlow.collectAsState().value
 
     LaunchedEffect(key1 = Unit) {
@@ -49,32 +47,31 @@ fun DashboardScreen(
 
     DashboardScreen(
         state = state,
-        onAddNewObjective = onAddNewObjective
+        onAddNewObjective = onAddNewObjective,
     )
 }
 
 @Composable
 internal fun DashboardScreen(
     state: DashboardViewState,
-    onAddNewObjective: () -> Unit
+    onAddNewObjective: () -> Unit,
 ) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(Spacing.x1)
+            .padding(Spacing.x1),
     ) {
-
         when (state) {
             is DashboardViewState.Content -> {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.spacedBy(Spacing.x1)
+                    verticalArrangement = Arrangement.spacedBy(Spacing.x1),
                 ) {
                     items(state.content) { objective ->
                         ObjectiveRewardListItem(
                             objectiveTitle = objective.title,
                             objectiveDescription = objective.desc,
-                            rewardImageUrl = objective.reward.imagePath
+                            rewardImageUrl = objective.reward.imagePath,
                         )
                     }
                 }
@@ -83,7 +80,7 @@ internal fun DashboardScreen(
             DashboardViewState.NoContent -> {
                 Text(
                     modifier = Modifier.align(Alignment.Center),
-                    text = "No objectives so far..."
+                    text = "No objectives so far...",
                 )
             }
         }
@@ -92,11 +89,11 @@ internal fun DashboardScreen(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(Spacing.x2),
-            onClick = onAddNewObjective
+            onClick = onAddNewObjective,
         ) {
             Icon(
                 imageVector = Icons.Rounded.Add,
-                contentDescription = "Add new objective"
+                contentDescription = "Add new objective",
             )
         }
     }

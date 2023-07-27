@@ -16,7 +16,6 @@ import com.andreivanceadev.designsystem.composables.ImageCard
 import com.andreivanceadev.designsystem.theme.ObjectiveRewardsTheme
 import com.andreivanceadev.designsystem.theme.Spacing
 
-
 @Preview(showSystemUi = true)
 @Composable
 private fun PreviewObjectiveRewardListItem() {
@@ -26,11 +25,11 @@ private fun PreviewObjectiveRewardListItem() {
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.surface)
                 .height(500.dp)
-                .padding(Spacing.x1)
+                .padding(Spacing.x1),
         ) {
             ObjectiveRewardListItem(
                 objectiveTitle = "Test Objective",
-                objectiveDescription = "Test Objective description. This is the description of what you are trying to achieve"
+                objectiveDescription = "Test Objective description. This is the description of what you are trying to achieve",
             )
         }
     }
@@ -41,7 +40,7 @@ fun ObjectiveRewardListItem(
     objectiveTitle: String,
     objectiveDescription: String,
     rewardImageUrl: String? = null,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
 ) {
     val imageUri = remember(rewardImageUrl) {
         rewardImageUrl?.toUri()
@@ -53,5 +52,4 @@ fun ObjectiveRewardListItem(
         imageUri = imageUri,
         onClick = onClick,
     )
-
 }

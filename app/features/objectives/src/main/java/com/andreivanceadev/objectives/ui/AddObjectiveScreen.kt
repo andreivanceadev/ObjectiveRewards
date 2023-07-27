@@ -51,7 +51,7 @@ private fun PreviewAddObjectiveScreen() {
             onTitleChange = {},
             onImageChange = {},
             onDescriptionChange = {},
-            onSave = {}
+            onSave = {},
         )
     }
 }
@@ -59,7 +59,7 @@ private fun PreviewAddObjectiveScreen() {
 @Composable
 fun AddObjectiveScreen(
     viewModel: AddObjectiveViewModel = hiltViewModel(),
-    onNavBack: () -> Unit
+    onNavBack: () -> Unit,
 ) {
     val state = viewModel.container.stateFlow.collectAsState().value
 
@@ -78,7 +78,7 @@ fun AddObjectiveScreen(
         onDescriptionChange = viewModel::onDescriptionChange,
         objectiveTitle = state.title,
         objectiveDescription = state.description,
-        imageUrl = state.imagePath
+        imageUrl = state.imagePath,
     )
 }
 
@@ -91,7 +91,7 @@ internal fun AddObjectiveScreen(
     onSave: () -> Unit,
     objectiveTitle: String,
     objectiveDescription: String,
-    imageUrl: String?
+    imageUrl: String?,
 ) {
     val maxTitleLength = 30
     val maxDescLength = 250
@@ -108,10 +108,10 @@ internal fun AddObjectiveScreen(
 
     val imagePicker = rememberLauncherForActivityResult(
         contract =
-        ActivityResultContracts.PickVisualMedia()
+        ActivityResultContracts.PickVisualMedia(),
     ) { uri: Uri? ->
         uri?.let {
-            //grant access for later read (when app starts)
+            // grant access for later read (when app starts)
             val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
             context.contentResolver.takePersistableUriPermission(it, flag)
         }
@@ -134,12 +134,15 @@ internal fun AddObjectiveScreen(
                     modifier = Modifier.align(Alignment.Center),
                     onClick = {
                         imagePicker.launch(
-                            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                            PickVisualMediaRequest(
+                                ActivityResultContracts.PickVisualMedia.ImageOnly,
+                            ),
                         )
-                    }) {
+                    },
+                ) {
                     Text(text = stringResource(R.string.add_image))
                 }
-            }
+            },
         )
 
         Spacer(modifier = Modifier.height(Spacing.x1))
@@ -159,7 +162,7 @@ internal fun AddObjectiveScreen(
             },
             label = { Text(text = stringResource(id = R.string.objective_title)) },
             singleLine = true,
-            supportingText = { Text(text = "${objectiveTitle.length}/$maxTitleLength") }
+            supportingText = { Text(text = "${objectiveTitle.length}/$maxTitleLength") },
         )
 
         Spacer(modifier = Modifier.height(Spacing.x1))
@@ -179,7 +182,7 @@ internal fun AddObjectiveScreen(
             },
             label = { Text(text = stringResource(id = R.string.objective_desc)) },
             minLines = 3,
-            supportingText = { Text(text = "${objectiveDescription.length}/$maxDescLength") }
+            supportingText = { Text(text = "${objectiveDescription.length}/$maxDescLength") },
         )
 
         Spacer(modifier = Modifier.height(Spacing.x2))
@@ -189,9 +192,9 @@ internal fun AddObjectiveScreen(
                 .align(Alignment.CenterHorizontally),
             onClick = {
                 onSave()
-            }) {
+            },
+        ) {
             Text(text = stringResource(R.string.save))
         }
-
     }
 }

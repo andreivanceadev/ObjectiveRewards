@@ -14,17 +14,13 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             with(pluginManager) {
                 apply("com.android.library")
                 apply("org.jetbrains.kotlin.android")
+                apply("objectiverewards.android.ktlint")
             }
 
             extensions.configure<LibraryExtension> {
                 configureKotlinAndroid(this)
                 defaultConfig.targetSdk = ProjectConfiguration.targetSdk
-//                configureFlavors(this)
             }
-//            extensions.configure<LibraryAndroidComponentsExtension> {
-//                configurePrintApksTask(this)
-//                disableUnnecessaryAndroidTests(target)
-//            }
             dependencies {
                 add("androidTestImplementation", kotlin("test"))
                 add("testImplementation", kotlin("test"))

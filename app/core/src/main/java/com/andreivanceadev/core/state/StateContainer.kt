@@ -8,7 +8,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -79,30 +78,30 @@ sealed class IntentEvent<STATE, EFFECT> {
     abstract val session: IntentSession
 
     data class Start<STATE, EFFECT>(
-        override val session: IntentSession
+        override val session: IntentSession,
     ) : IntentEvent<STATE, EFFECT>()
 
     data class Mutation<STATE, EFFECT>(
         val previous: STATE,
         val next: STATE,
-        override val session: IntentSession
+        override val session: IntentSession,
     ) : IntentEvent<STATE, EFFECT>()
 
     data class Effect<STATE, EFFECT>(
         val effect: EFFECT,
-        override val session: IntentSession
+        override val session: IntentSession,
     ) : IntentEvent<STATE, EFFECT>()
 
     data class End<STATE, EFFECT>(
         val isCancelled: Boolean,
-        override val session: IntentSession
+        override val session: IntentSession,
     ) : IntentEvent<STATE, EFFECT>()
 }
 
 private class StateContainerImpl<STATE, EFFECT>(
     initialState: STATE,
     private val scope: CoroutineScope,
-    private val onIntentEvent: OnIntentEvent<STATE, EFFECT>
+    private val onIntentEvent: OnIntentEvent<STATE, EFFECT>,
 ) : StateContainer<STATE, EFFECT> {
 
     private val intentSessionCount = mutableMapOf<String, Long>()
@@ -117,7 +116,10 @@ private class StateContainerImpl<STATE, EFFECT>(
 
     override val effectFlow: Flow<EFFECT> = sideEffectChannel.receiveAsFlow()
 
-    override fun intent(name: String, block: suspend StateContainer.IntentScope<STATE, EFFECT>.() -> Unit) {
+    override fun intent(
+        name: String,
+        block: suspend StateContainer.IntentScope<STATE, EFFECT>.() -> Unit,
+    ) {
         val id = synchronized(lock) { intentSessionCount.getAndIncrement(name) }
         val session = IntentSession(name, id)
         val job = Job()
@@ -134,7 +136,7 @@ private class StateContainerImpl<STATE, EFFECT>(
     private inner class TransactionScopeImpl(
         override val job: Job,
         private val scope: CoroutineScope,
-        private val session: IntentSession
+        private val session: IntentSession,
     ) : StateContainer.IntentScope<STATE, EFFECT>, StateContainer.IntentCoroutineScope, CoroutineScope by scope {
 
         override val state: STATE
@@ -149,7 +151,7 @@ private class StateContainerImpl<STATE, EFFECT>(
         }
 
         override fun reduce(
-            block: StateContainer.ReduceScope<STATE, EFFECT>.() -> STATE
+            block: StateContainer.ReduceScope<STATE, EFFECT>.() -> STATE,
         ): Boolean {
             val (mutation, effects) = synchronized(lock) {
                 val effects = mutableListOf<EFFECT>()
@@ -164,7 +166,11 @@ private class StateContainerImpl<STATE, EFFECT>(
                 val next = block(reduceScope)
                 if (current != next) {
                     mutableStateFlow.value = next
-                    IntentEvent.Mutation<STATE, EFFECT>(previous = current, next = next, session = session) to effects
+                    IntentEvent.Mutation<STATE, EFFECT>(
+                        previous = current,
+                        next = next,
+                        session = session,
+                    ) to effects
                 } else {
                     null to effects
                 }
@@ -179,7 +185,7 @@ private class StateContainerImpl<STATE, EFFECT>(
                  * Effects should be notified only after the mutation and outside state lock,
                  * otherwise observers might try to react to a effect while the state is not yet updated.
                  */
-                ::postEffect
+                ::postEffect,
             )
 
             return mutation != null
@@ -189,7 +195,7 @@ private class StateContainerImpl<STATE, EFFECT>(
 
 private class SynchronizedStateFlow<STATE>(
     private val lock: Any,
-    private val delegate: StateFlow<STATE>
+    private val delegate: StateFlow<STATE>,
 ) : StateFlow<STATE> by delegate {
 
     override val value: STATE
@@ -197,7 +203,7 @@ private class SynchronizedStateFlow<STATE>(
 }
 
 fun <STATE, EFFECT> StateContainer.Builder<STATE, EFFECT>.onMutationEvent(
-    block: (IntentEvent.Mutation<STATE, EFFECT>) -> Unit
+    block: (IntentEvent.Mutation<STATE, EFFECT>) -> Unit,
 ) = apply {
     onEvent { event ->
         if (event is IntentEvent.Mutation) {
@@ -207,7 +213,7 @@ fun <STATE, EFFECT> StateContainer.Builder<STATE, EFFECT>.onMutationEvent(
 }
 
 fun <STATE, EFFECT> StateContainer.Builder<STATE, EFFECT>.onEffectEvent(
-    block: (IntentEvent.Effect<STATE, EFFECT>) -> Unit
+    block: (IntentEvent.Effect<STATE, EFFECT>) -> Unit,
 ) = apply {
     onEvent { event ->
         if (event is IntentEvent.Effect) {
@@ -217,7 +223,7 @@ fun <STATE, EFFECT> StateContainer.Builder<STATE, EFFECT>.onEffectEvent(
 }
 
 fun <STATE, EFFECT> StateContainer.Builder<STATE, EFFECT>.onSimpleEvent(
-    block: (IntentEvent<STATE, EFFECT>) -> Unit
+    block: (IntentEvent<STATE, EFFECT>) -> Unit,
 ) = apply {
     onEvent { event ->
         if (event is IntentEvent.Effect || event is IntentEvent.Mutation) {
@@ -227,14 +233,14 @@ fun <STATE, EFFECT> StateContainer.Builder<STATE, EFFECT>.onSimpleEvent(
 }
 
 fun <STATE, EFFECT> StateContainer<STATE, EFFECT>.reduce(
-    block: StateContainer.ReduceScope<STATE, EFFECT>.() -> STATE
+    block: StateContainer.ReduceScope<STATE, EFFECT>.() -> STATE,
 ) {
     val name = Throwable().stackTrace.getOrNull(1)?.methodName ?: DEFAULT_METHOD_NAME
     reduce(name = name, block = block)
 }
 
 fun <STATE, EFFECT> StateContainer<STATE, EFFECT>.intent(
-    block: suspend StateContainer.IntentScope<STATE, EFFECT>.() -> Unit
+    block: suspend StateContainer.IntentScope<STATE, EFFECT>.() -> Unit,
 ) {
     val name = Throwable().stackTrace.getOrNull(1)?.methodName ?: DEFAULT_METHOD_NAME
     intent(name = name, block = block)
@@ -242,7 +248,7 @@ fun <STATE, EFFECT> StateContainer<STATE, EFFECT>.intent(
 
 fun <STATE, EFFECT> StateContainer<STATE, EFFECT>.reduce(
     name: String,
-    block: StateContainer.ReduceScope<STATE, EFFECT>.() -> STATE
+    block: StateContainer.ReduceScope<STATE, EFFECT>.() -> STATE,
 ) {
     intent(name) {
         reduce {
@@ -252,7 +258,7 @@ fun <STATE, EFFECT> StateContainer<STATE, EFFECT>.reduce(
 }
 
 fun <STATE, EFFECT> StateContainer<STATE, EFFECT>.postEffect(
-    effect: EFFECT
+    effect: EFFECT,
 ) {
     val name = Throwable().stackTrace.getOrNull(1)?.methodName ?: DEFAULT_METHOD_NAME
     postEffect(name = name, effect = effect)
@@ -260,7 +266,7 @@ fun <STATE, EFFECT> StateContainer<STATE, EFFECT>.postEffect(
 
 fun <STATE, EFFECT> StateContainer<STATE, EFFECT>.postEffect(
     name: String,
-    effect: EFFECT
+    effect: EFFECT,
 ) {
     intent(name) {
         postEffect(effect)
@@ -269,7 +275,7 @@ fun <STATE, EFFECT> StateContainer<STATE, EFFECT>.postEffect(
 
 @StateContainerDsl
 fun <STATE, EFFECT> StateContainerHost<STATE, EFFECT>.intent(
-    block: suspend StateContainer.IntentScope<STATE, EFFECT>.() -> Unit
+    block: suspend StateContainer.IntentScope<STATE, EFFECT>.() -> Unit,
 ) {
     val name = Throwable().stackTrace.getOrNull(1)?.methodName ?: DEFAULT_METHOD_NAME
     intent(name = name, block = block)
@@ -278,12 +284,12 @@ fun <STATE, EFFECT> StateContainerHost<STATE, EFFECT>.intent(
 @StateContainerDsl
 fun <STATE, EFFECT> StateContainerHost<STATE, EFFECT>.intent(
     name: String,
-    block: suspend StateContainer.IntentScope<STATE, EFFECT>.() -> Unit
+    block: suspend StateContainer.IntentScope<STATE, EFFECT>.() -> Unit,
 ) = container.intent(name = name, block = block)
 
 @StateContainerDsl
 fun <STATE, EFFECT> StateContainerHost<STATE, EFFECT>.reduce(
-    block: StateContainer.ReduceScope<STATE, EFFECT>.() -> STATE
+    block: StateContainer.ReduceScope<STATE, EFFECT>.() -> STATE,
 ) {
     val name = Throwable().stackTrace.getOrNull(1)?.methodName ?: DEFAULT_METHOD_NAME
     reduce(name = name, block = block)
@@ -292,7 +298,7 @@ fun <STATE, EFFECT> StateContainerHost<STATE, EFFECT>.reduce(
 @StateContainerDsl
 fun <STATE, EFFECT> StateContainerHost<STATE, EFFECT>.reduce(
     name: String,
-    block: StateContainer.ReduceScope<STATE, EFFECT>.() -> STATE
+    block: StateContainer.ReduceScope<STATE, EFFECT>.() -> STATE,
 ) = container.reduce(name = name, block = block)
 
 val <STATE, EFFECT> StateContainerHost<STATE, EFFECT>.stateFlow: StateFlow<STATE>
@@ -325,7 +331,7 @@ private fun IntentSession.toPrettyString(close: Boolean = true): String {
 
 suspend fun <STATE, EFFECT, HOST : StateContainerHost<STATE, EFFECT>> HOST.test(
     ignoreInitial: Boolean = true,
-    block: suspend HOST.(state: ReceiveTurbine<STATE>, effect: ReceiveTurbine<EFFECT>) -> Unit
+    block: suspend HOST.(state: ReceiveTurbine<STATE>, effect: ReceiveTurbine<EFFECT>) -> Unit,
 ) = coroutineScope {
     val state = stateFlow.testIn(this)
     val effect = effectFlow.testIn(this)

@@ -7,5 +7,5 @@ import kotlinx.parcelize.Parcelize
 data class AddObjectiveViewState(
     val title: String = "",
     val description: String = "",
-    val imagePath: String = ""
+    val imagePath: String = "",
 ) : Parcelable
