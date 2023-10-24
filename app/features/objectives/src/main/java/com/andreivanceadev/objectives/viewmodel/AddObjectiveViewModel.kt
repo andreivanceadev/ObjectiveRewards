@@ -8,8 +8,6 @@ import com.andreivanceadev.core.state.intent
 import com.andreivanceadev.core.state.onSimpleEvent
 import com.andreivanceadev.core.state.reduce
 import com.andreivanceadev.core.state.toPrettyString
-import com.andreivanceadev.data.datamodel.ObjectiveDM
-import com.andreivanceadev.data.datamodel.RewardDM
 import com.andreivanceadev.data.repository.ObjectivesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import timber.log.Timber
@@ -28,16 +26,7 @@ class AddObjectiveViewModel @Inject constructor(
         .build()
 
     fun onSave() = intent {
-        objectivesRepository.addObjective(
-            ObjectiveDM(
-                title = state.title,
-                desc = state.description,
-                reward = RewardDM(
-                    title = "Todo",
-                    imagePath = state.imagePath,
-                ),
-            ),
-        )
+        // TODO: Save the objective
         postEffect(AddObjectiveSideEffect.NavBack)
     }
 

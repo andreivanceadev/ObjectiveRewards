@@ -5,10 +5,11 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "objectives"
+    tableName = "objectives",
 )
-internal data class ObjectiveDto(
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val objectiveId: Long = 0,
+data class ObjectiveEntity(
+    @PrimaryKey(autoGenerate = true) @ColumnInfo("objective_id")  val id: Long = 0,
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "description") val description: String,
+    @ColumnInfo(name = "reward") val rewardId: Long,
 )

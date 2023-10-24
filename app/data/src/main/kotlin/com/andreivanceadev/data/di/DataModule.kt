@@ -1,7 +1,9 @@
 package com.andreivanceadev.data.di
 
 import android.content.Context
-import com.andreivanceadev.data.dao.ObjectiveRewardsDao
+import com.andreivanceadev.data.dao.ObjectivesDao
+import com.andreivanceadev.data.dao.RewardsCategoryDao
+import com.andreivanceadev.data.dao.RewardsDao
 import com.andreivanceadev.data.db.ObjectiveRewardsDB
 import dagger.Module
 import dagger.Provides
@@ -20,6 +22,12 @@ object DataModule {
         ObjectiveRewardsDB.getInstance(context)
 
     @Provides
-    internal fun provideObjectiveRewardsDao(db: ObjectiveRewardsDB): ObjectiveRewardsDao = db.objectiveRewardsDao()
+    internal fun provideObjectivesDao(db: ObjectiveRewardsDB): ObjectivesDao = db.objectivesDao()
+
+    @Provides
+    internal fun provideRewardsDao(db: ObjectiveRewardsDB): RewardsDao = db.rewardsDao()
+
+    @Provides
+    internal fun provideRewardsCategoryDao(db: ObjectiveRewardsDB): RewardsCategoryDao = db.rewardsCategoryDao()
 
 }

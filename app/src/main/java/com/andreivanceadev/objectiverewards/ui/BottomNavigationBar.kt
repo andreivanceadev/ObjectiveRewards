@@ -4,8 +4,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -30,7 +30,7 @@ import kotlinx.collections.immutable.persistentListOf
 private fun PreviewBottomNavigationBar() {
     val screens = persistentListOf(
         BottomBarNav.Dashboard,
-        BottomBarNav.TimeChart,
+        BottomBarNav.Rewards,
         BottomBarNav.Graph,
     )
 
@@ -55,7 +55,7 @@ private fun PreviewBottomNavigationBar() {
 fun BottomNavigationBar(navController: NavHostController) {
     val screens = persistentListOf(
         BottomBarNav.Dashboard,
-        BottomBarNav.TimeChart,
+        BottomBarNav.Rewards,
         BottomBarNav.Graph,
     )
 
@@ -115,10 +115,10 @@ sealed class BottomBarNav(
         icon = Icons.Default.Home,
     )
 
-    data object TimeChart : BottomBarNav(
-        route = ScreenNavigation.TimeChart.navRoute,
-        title = "Time Chart",
-        icon = Icons.Default.PlayArrow,
+    data object Rewards : BottomBarNav(
+        route = ScreenNavigation.Rewards.navRoute,
+        title = "Rewards",
+        icon = Icons.Default.Star,
     )
 
     data object Graph : BottomBarNav(

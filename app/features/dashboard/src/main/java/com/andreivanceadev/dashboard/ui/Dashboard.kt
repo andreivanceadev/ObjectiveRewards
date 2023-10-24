@@ -57,9 +57,7 @@ internal fun DashboardScreen(
     onAddNewObjective: () -> Unit,
 ) {
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(Spacing.x1),
+        modifier = Modifier.fillMaxSize(),
     ) {
         when (state) {
             is DashboardViewState.Content -> {

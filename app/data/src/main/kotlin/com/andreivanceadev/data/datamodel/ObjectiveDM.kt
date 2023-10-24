@@ -1,21 +1,26 @@
 package com.andreivanceadev.data.datamodel
 
-import com.andreivanceadev.data.entity.ObjectiveAndRewardDto
-import com.andreivanceadev.data.entity.ObjectiveDto
+import com.andreivanceadev.data.dto.ObjectiveDto
+import com.andreivanceadev.data.entity.ObjectiveEntity
 
 data class ObjectiveDM(
+    val id: Long,
     val title: String,
     val desc: String,
-    val reward: RewardDM
+    val reward: RewardDM,
 )
 
-internal fun ObjectiveDM.toDto() = ObjectiveDto(
+
+internal fun ObjectiveDM.toEntity(rewardId: Long) = ObjectiveEntity(
+    id = this.id,
     title = this.title,
-    description = this.desc
+    description = this.desc,
+    rewardId = rewardId,
 )
 
-internal fun ObjectiveAndRewardDto.toDM() = ObjectiveDM(
+internal fun ObjectiveDto.toDM() = ObjectiveDM(
+    id = this.objective.id,
     title = this.objective.title,
     desc = this.objective.description,
-    reward = this.reward.toDM()
+    reward = this.reward.toDM(),
 )

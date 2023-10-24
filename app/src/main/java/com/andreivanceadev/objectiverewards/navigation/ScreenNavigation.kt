@@ -5,7 +5,7 @@ sealed class ScreenNavigation(
 ) {
 
     data object Dashboard : ScreenNavigation(navRoute = "dashboard")
-    data object TimeChart : ScreenNavigation(navRoute = "timeChart")
+    data object Rewards : ScreenNavigation(navRoute = "rewards")
     data object Graph : ScreenNavigation(navRoute = "graph")
 
     sealed class DashboardNavs(val route: String) {

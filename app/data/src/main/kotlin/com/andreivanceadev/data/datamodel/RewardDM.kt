@@ -1,19 +1,25 @@
 package com.andreivanceadev.data.datamodel
 
-import com.andreivanceadev.data.entity.RewardDto
+import com.andreivanceadev.data.dto.RewardDto
+import com.andreivanceadev.data.entity.RewardEntity
 
 data class RewardDM(
+    val id: Long,
     val title: String,
-    val imagePath: String
+    val imagePath: String,
+    val category: RewardCategoryDM,
 )
 
-internal fun RewardDM.toDto(objectiveId: Long) = RewardDto(
+fun RewardDto.toDM() = RewardDM(
+    id = this.reward.id,
+    title = this.reward.title,
+    imagePath = this.reward.imagePath,
+    category = this.category.toDM(),
+)
+
+fun RewardDM.toEntity() = RewardEntity(
+    id = this.id,
     title = this.title,
     imagePath = this.imagePath,
-    objectiveId = objectiveId
-)
-
-internal fun RewardDto.toDM() = RewardDM(
-    title = this.title,
-    imagePath = this.imagePath
+    categoryId = this.category.id,
 )

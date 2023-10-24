@@ -2,15 +2,15 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "580524bf50f56657f3f9c8312e710a25",
+    "identityHash": "aa9bc7457d4ffad78171cddd4033550c",
     "entities": [
       {
         "tableName": "objectives",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`objective_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `reward` INTEGER NOT NULL)",
         "fields": [
           {
-            "fieldPath": "objectiveId",
-            "columnName": "id",
+            "fieldPath": "id",
+            "columnName": "objective_id",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -25,12 +25,18 @@
             "columnName": "description",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "rewardId",
+            "columnName": "reward",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
           "autoGenerate": true,
           "columnNames": [
-            "id"
+            "objective_id"
           ]
         },
         "indices": [],
@@ -38,10 +44,10 @@
       },
       {
         "tableName": "rewards",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`reward_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `reward_title` TEXT NOT NULL, `reward_image` TEXT NOT NULL, `objective_id` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`reward_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `reward_title` TEXT NOT NULL, `reward_image` TEXT NOT NULL, `category` INTEGER NOT NULL)",
         "fields": [
           {
-            "fieldPath": "rewardId",
+            "fieldPath": "id",
             "columnName": "reward_id",
             "affinity": "INTEGER",
             "notNull": true
@@ -59,8 +65,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "objectiveId",
-            "columnName": "objective_id",
+            "fieldPath": "categoryId",
+            "columnName": "category",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -73,12 +79,48 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "reward_category",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`category_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `display_name` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "category_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "displayName",
+            "columnName": "display_name",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "category_id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_reward_category_display_name",
+            "unique": true,
+            "columnNames": [
+              "display_name"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_reward_category_display_name` ON `${TABLE_NAME}` (`display_name`)"
+          }
+        ],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '580524bf50f56657f3f9c8312e710a25')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'aa9bc7457d4ffad78171cddd4033550c')"
     ]
   }
 }

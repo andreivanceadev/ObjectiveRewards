@@ -47,6 +47,7 @@ dependencies {
     implementation(project("features:designsystem"))
     implementation(project("features:dashboard"))
     implementation(project("features:objectives"))
+    implementation(project("features:rewards"))
 
     implementation(libs.compose.navigation)
 

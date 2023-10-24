@@ -5,6 +5,7 @@ package com.andreivanceadev.objectiverewards
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -17,6 +18,8 @@ import androidx.navigation.compose.rememberNavController
 import com.andreivanceadev.dashboard.ui.DashboardScreen
 import com.andreivanceadev.designsystem.composables.PlaceholderScreen
 import com.andreivanceadev.designsystem.theme.ObjectiveRewardsTheme
+import com.andreivanceadev.designsystem.theme.Spacing
+import com.andreivanceadev.features.rewards.ui.RewardsScreen
 import com.andreivanceadev.objectiverewards.navigation.ScreenNavigation
 import com.andreivanceadev.objectiverewards.ui.BottomBarNav
 import com.andreivanceadev.objectiverewards.ui.BottomNavigationBar
@@ -34,6 +37,12 @@ class MainActivity : ComponentActivity() {
 
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
+                    contentWindowInsets = WindowInsets(
+                        Spacing.x2,
+                        Spacing.x2,
+                        Spacing.x2,
+                        Spacing.x2,
+                    ),
                     bottomBar = {
                         BottomNavigationBar(navController = navController)
                     },
@@ -50,11 +59,13 @@ class MainActivity : ComponentActivity() {
                             startDestination = ScreenNavigation.DashboardNavs.Home.route,
                         ) {
                             composable(route = ScreenNavigation.DashboardNavs.Home.route) {
-                                DashboardScreen(onAddNewObjective = {
-                                    navController.navigate(
-                                        ScreenNavigation.DashboardNavs.AddNewObjective.route,
-                                    )
-                                },)
+                                DashboardScreen(
+                                    onAddNewObjective = {
+                                        navController.navigate(
+                                            ScreenNavigation.DashboardNavs.AddNewObjective.route,
+                                        )
+                                    },
+                                )
                             }
                             composable(route = ScreenNavigation.DashboardNavs.AddNewObjective.route) {
                                 AddObjectiveScreen(
@@ -62,8 +73,8 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                         }
-                        composable(route = BottomBarNav.TimeChart.route) {
-                            PlaceholderScreen(screenName = "Time Chart")
+                        composable(route = BottomBarNav.Rewards.route) {
+                            RewardsScreen()
                         }
                         composable(route = BottomBarNav.Graph.route) {
                             PlaceholderScreen(screenName = "Graph View")
